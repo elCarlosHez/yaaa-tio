@@ -8,6 +8,7 @@ import { PocketProvider } from "./contexts/PocketContext";
 import { LiveMatch } from "./pages/LiveMatch";
 import { queryClient } from "./lib/QueryClient";
 import { QueryClientProvider } from "react-query";
+import { CreateMatch } from "./pages/CreateMatch";
 
 export const App = () => {
   return (
@@ -18,7 +19,8 @@ export const App = () => {
             <Route index element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route element={<RequireAuth />}>
-              <Route path="/live-match" element={<LiveMatch />} />
+              <Route path="/create-match" element={<CreateMatch />} />
+              <Route path="/live-match/:id" element={<LiveMatch />} />
             </Route>
           </Routes>
         </BrowserRouter>

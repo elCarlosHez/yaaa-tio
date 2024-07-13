@@ -17,4 +17,4 @@
 
 ### Notes
 
-If you run npm run build, the output directory will point to pb_bublic in the backend folder.
+If you run `npm run build`, the output directory will point to pb_bublic in the backend folder.

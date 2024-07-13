@@ -1,31 +1,26 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { css } from "@emotion/css";
-import CloseIcon from "@mui/icons-material/Close";
-import { usePocket } from "../contexts/PocketContext";
-import { useEffect } from "react";
 import { Player } from "../components/Player";
+import { useParams } from "react-router-dom";
+import { useGetMatch } from "../queries/GetMatch";
+import { useGetUsers } from "../queries";
+import { Score } from "../components/Score";
+import { Events } from "../components/Events";
 
 export const LiveMatch = () => {
-  const { pb } = usePocket();
-  useEffect(() => {
-    pb.collection("users")
-      .getFullList()
-      .then((data) => console.log(data));
-  }, []);
+  const { id } = useParams();
+  const { data: match, isLoading: isMatchLoading } = useGetMatch(id);
+  const { data: users, isLoading: isUsersLoading } = useGetUsers();
+
+  if (isMatchLoading || isUsersLoading) {
+    return <CircularProgress />;
+  }
+
   return (
     <Grid container>
       <Grid xs={12}>
-        <Grid display="flex" justifyContent="center" alignItems="center">
+        <Grid display="flex" justifyContent="center" alignItems="center" mb={5}>
           <Button
             className={css`
               margin-right: 12px !important;
@@ -34,16 +29,8 @@ export const LiveMatch = () => {
           >
             Cancel
           </Button>
-          <Typography
-            className={css`
-              margin-right: 12px !important;
-            `}
-            variant="h4"
-            color={"primary"}
-          >
-            3 - 1
-          </Typography>
-          <Button variant="contained">Accept</Button>
+          <Score matchId={id} />
+          <Button variant="contained">End match</Button>
         </Grid>
       </Grid>
       <Grid xs={12}>
@@ -53,19 +40,34 @@ export const LiveMatch = () => {
           alignItems="center"
           flexWrap="wrap"
         >
-          <Player position="Goalkeeper" side="red" />
-          <Player position="Striker" side="blue" />
-          <Player position="Striker" side="red" />
-          <Player position="Goalkeeper" side="blue" />
+          <Player
+            position="goal_keeper"
+            side="red"
+            player={users?.find((user) => match?.red_goal_keeper === user.id)}
+            match={match}
+          />
+          <Player
+            position="striker"
+            side="blue"
+            player={users?.find((user) => match?.blue_striker === user.id)}
+            match={match}
+          />
+          <Player
+            position="striker"
+            side="red"
+            player={users?.find((user) => match?.red_striker === user.id)}
+            match={match}
+          />
+          <Player
+            position="goal_keeper"
+            side="blue"
+            player={users?.find((user) => match?.blue_goal_keeper === user.id)}
+            match={match}
+          />
         </Grid>
       </Grid>
-      <Grid xs={12}>
-        <h1>
-          Gol de Juan{" "}
-          <IconButton color="error" aria-label="delete">
-            <CloseIcon />
-          </IconButton>
-        </h1>
+      <Grid xs={10} xsOffset={1}>
+        <Events matchId={id} />
       </Grid>
     </Grid>
   );
