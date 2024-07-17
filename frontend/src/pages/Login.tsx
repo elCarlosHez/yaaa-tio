@@ -1,4 +1,4 @@
-import { Box, Grid, CssBaseline, Paper, Typography, Link } from "@mui/material";
+import { Box, CssBaseline, Typography, Link } from "@mui/material";
 import { GoogleButton } from "../components/GoogleButton";
 import { pb } from "../lib";
 import { useNavigate } from "react-router-dom";
