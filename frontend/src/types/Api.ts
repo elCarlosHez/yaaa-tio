@@ -9,10 +9,10 @@ export interface Collection<T> {
 }
 
 export interface MatchesBody {
-  red_goal_keeper: User;
-  red_striker: User;
-  blue_goal_keeper: User;
-  blue_striker: User;
+  red_goal_keeper: string;
+  red_striker: string;
+  blue_goal_keeper: string;
+  blue_striker: string;
 }
 
 export interface Match { 
@@ -25,6 +25,8 @@ export interface Match {
   red_striker: string;
   blue_goal_keeper: string;
   blue_striker: string;
+  complted_at: string;
+  winner: "red" | "blue";
 }
 
 export interface Goal {

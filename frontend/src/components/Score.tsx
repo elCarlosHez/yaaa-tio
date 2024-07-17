@@ -1,20 +1,12 @@
 import { css } from "@emotion/css";
-import { CircularProgress, Typography } from "@mui/material";
-import { useGetMatchGoals } from "../queries/GetMatchGoals";
+import { Typography } from "@mui/material";
 
 interface IScore {
-  matchId?: string;
+  redScore: number;
+  blueScore: number;
 }
 
-export const Score = ({ matchId }: IScore) => {
-  const { data: goals, isLoading } = useGetMatchGoals(matchId);
-  if (isLoading) {
-    return <CircularProgress />;
-  }
-
-  const redScore = goals?.filter((goal) => goal.team === "red").length;
-  const blueScore = goals?.filter((goal) => goal.team === "blue").length;
-
+export const Score = ({ redScore, blueScore }: IScore) => {
   return (
     <Typography
       className={css`
