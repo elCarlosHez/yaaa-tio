@@ -15,11 +15,18 @@
 1. `cd backend`
 1. `./pocketbase serve`
 
+### Terraform first time setup
+
+1. Download terraform
+1. Download and configure aws cli
+1. `cd tf`
+1. `terraform init`
+
 ### Notes
 
 If you run `npm run build`, the output directory will point to pb_bublic in the backend folder.
 
-### ER Diagram
+### ER Diagram Ver. 2
 
 ```mermaid
 ---
