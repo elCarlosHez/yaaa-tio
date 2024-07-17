@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   FormControl,
-  FormGroup,
   InputLabel,
   MenuItem,
   Select,

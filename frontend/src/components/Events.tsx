@@ -1,4 +1,4 @@
-import { useGetMatchGoals } from "../queries/GetMatchGoals";
+import { useGetMatchGoals } from "../queries";
 import { Box, CircularProgress } from "@mui/material";
 import { Goal } from "./Goal";
 import useEmblaCarousel from "embla-carousel-react";

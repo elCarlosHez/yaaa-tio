@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Card,
   CardContent,
@@ -6,17 +7,26 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import { SkipNext, PlayArrow, Delete } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 import { Goal as GoalType } from "../types";
+import { css } from "@emotion/css";
+import { pb } from "../lib";
+import { useDeleteGoal } from "../mutations";
 
 interface IGoal {
   goal: GoalType;
 }
 
 export const Goal = ({ goal }: IGoal) => {
+  const { mutate: deleteGoal } = useDeleteGoal();
+  
+  const onPressDelete = () => {
+    deleteGoal(goal);
+  }
+
   return (
     <Card sx={{ display: "flex" }}>
-      <Box sx={{ display: "flex", flexDirection: "column",  width: '100%' }}>
+      <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
             {goal.type === "goal" ? "Goal" : "Own Goal"}
@@ -26,7 +36,14 @@ export const Goal = ({ goal }: IGoal) => {
             color="text.secondary"
             component="div"
           >
-            {goal.expand?.scorer?.username}
+            By {goal.expand?.scorer?.username}
+          </Typography>
+          <Typography
+            className={css`
+              text-transform: capitalize;
+            `}
+          >
+            Team: {goal.team}
           </Typography>
         </CardContent>
         <Box
@@ -37,17 +54,28 @@ export const Goal = ({ goal }: IGoal) => {
             pb: 1,
           }}
         >
-          <IconButton aria-label="play/pause">
+          <IconButton aria-label="play/pause" onClick={onPressDelete}>
             <Delete sx={{ height: 40, width: 40 }} />
           </IconButton>
         </Box>
       </Box>
       <CardMedia
-        component="img"
-        sx={{ width: 151 }}
-        image="https://images.pexels.com/photos/19607905/pexels-photo-19607905/free-photo-of-camara-mesa-imagenes-fotos.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        alt="Live from space album cover"
-      />
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Avatar
+          className={css`
+            width: 120px !important;
+            height: 120px !important;
+          `}
+          alt={`${goal.expand?.scorer?.username} avatar`}
+          src={pb.getFileUrl(goal.expand?.scorer!, goal.expand?.scorer.avatar!)}
+        />
+      </CardMedia>
     </Card>
   );
 };

@@ -1,16 +1,20 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-
-import { usePocket } from "../contexts/PocketContext";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { pb } from "../lib";
+import { useEffect } from "react";
 
 export const RequireAuth = () => {
-  const { user } = usePocket();
+  const { isAuthRecord } = pb.authStore;
   const location = useLocation();
+  const navigate = useNavigate();
 
-  if (!user) {
-    return (
-      <Navigate to={{ pathname: "/sign-in" }} state={{ location }} replace />
-    );
-  }
+  useEffect(() => {
+    if (!isAuthRecord) {
+      navigate('/', {
+        state:  location,
+        replace: true
+      });
+    }
+  },[isAuthRecord])
 
   return <Outlet />;
 };

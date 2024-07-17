@@ -5,20 +5,44 @@ import { Player } from "../components/Player";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { MatchesBody } from "../types";
 import { useCreateMatch } from "../mutations";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useGetMatch } from "../queries/GetMatch";
+import { useEffect } from "react";
 
 export const CreateMatch = () => {
+  let [searchParams, _] = useSearchParams();
   const navigate = useNavigate();
   const { mutateAsync: createMatch, isLoading } = useCreateMatch();
   const {
-    register,
+    control,
     handleSubmit,
+    setValue,
     formState: { isValid },
   } = useForm<MatchesBody>();
+  const { data: previousMatch, isLoading: isPreviousMatchLoading } =
+    useGetMatch(searchParams.get("previousMatch")!);
+
   const onSubmit: SubmitHandler<MatchesBody> = async (data) => {
     const match = await createMatch(data);
     navigate(`/live-match/${match.id}`);
   };
+
+  useEffect(() => {
+    if (previousMatch) {
+      if (previousMatch.winner === "red") {
+        setValue("red_striker", previousMatch.red_striker);
+        setValue("red_goal_keeper", previousMatch.red_goal_keeper);
+      }
+      if (previousMatch.winner === "blue") {
+        setValue("blue_striker", previousMatch.blue_striker);
+        setValue("blue_goal_keeper", previousMatch.blue_goal_keeper);
+      }
+    }
+  }, [previousMatch]);
+
+  if (isPreviousMatchLoading) {
+    return <CircularProgress />;
+  }
 
   return (
     <Grid container component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -44,10 +68,10 @@ export const CreateMatch = () => {
           alignItems="center"
           flexWrap="wrap"
         >
-          <Player position="goal_keeper" side="red" register={register} />
-          <Player position="striker" side="blue" register={register} />
-          <Player position="striker" side="red" register={register} />
-          <Player position="goal_keeper" side="blue" register={register} />
+          <Player control={control} position="goal_keeper" side="red" />
+          <Player control={control} position="striker" side="blue" />
+          <Player control={control} position="striker" side="red" />
+          <Player control={control} position="goal_keeper" side="blue" />
         </Grid>
       </Grid>
       <Grid xs={12} textAlign="center">

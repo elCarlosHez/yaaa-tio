@@ -11,6 +11,7 @@ export const useGetMatchGoals = (matchId: string | undefined) =>
       const goals = await pb.collection("goals").getFullList<Goal>({
         filter: pb.filter(`match = '${matchId}'`),
         expand: 'scorer, match',
+        sort: '-created',
       });
       return goals;
     },
