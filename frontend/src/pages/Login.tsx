@@ -1,4 +1,4 @@
-import { Box, CssBaseline, Typography, Link } from "@mui/material";
+import { Box, Typography, Link } from "@mui/material";
 import { GoogleButton } from "../components/GoogleButton";
 import { pb } from "../lib";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,6 @@ export const Login = () => {
       }}
       component={"main"}
     >
-      <CssBaseline />
       <Box
         sx={{
           width: "50%",
