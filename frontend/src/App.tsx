@@ -7,10 +7,12 @@ import { queryClient } from "./lib/QueryClient";
 import { QueryClientProvider } from "react-query";
 import { CreateMatch } from "./pages/CreateMatch";
 import { Login } from "./pages/Login";
+import { CssBaseline } from "@mui/material";
 
 export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
+      <CssBaseline />
       <BrowserRouter>
         <Routes>
           <Route index element={<Login />} />
