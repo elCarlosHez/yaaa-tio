@@ -223,7 +223,7 @@ sudo usermod -a -G docker ec2-user
 sudo timedatectl set-timezone America/New_York
 sudo aws ecr get-login-password --region ${var.main_region} | docker login --username AWS --password-stdin ${local.repo_url}
 sudo docker pull ${local.repo_url}:latest
-sudo docker run ${local.repo_url}:latest
+sudo docker run --name yaaatio -p 80:80 ${local.repo_url}:latest
 EOF
 
 }
