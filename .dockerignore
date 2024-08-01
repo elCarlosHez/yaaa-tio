@@ -1,0 +1,37 @@
+# flyctl launch added from .gitignore
+**\*\pocketbase.*
+backend\pb_data
+backend\pb_public
+
+# flyctl launch added from frontend\.gitignore
+# Logs
+frontend\**\logs
+frontend\**\*.log
+frontend\**\npm-debug.log*
+frontend\**\yarn-debug.log*
+frontend\**\yarn-error.log*
+frontend\**\pnpm-debug.log*
+frontend\**\lerna-debug.log*
+
+frontend\**\node_modules
+frontend\**\dist
+frontend\**\dist-ssr
+frontend\**\*.local
+
+# Editor directories and files
+frontend\**\.vscode\*
+!frontend\**\.vscode\extensions.json
+frontend\**\.idea
+frontend\**\.DS_Store
+frontend\**\*.suo
+frontend\**\*.ntvs*
+frontend\**\*.njsproj
+frontend\**\*.sln
+frontend\**\*.sw?
+frontend\**\.yarn
+
+# flyctl launch added from frontend\.yarn\cache\.gitignore
+frontend\.yarn\cache\.gitignore
+frontend\.yarn\cache\**\*.flock
+frontend\.yarn\cache\**\*.tmp
+fly.toml
