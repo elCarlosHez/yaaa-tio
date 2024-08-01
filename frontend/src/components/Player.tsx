@@ -34,7 +34,7 @@ export const Player = ({
   const [selectedPlayer, setSelectedPlayer] = useState<string>(player);
   const { data: users, isLoading } = useGetUsers();
   const { mutateAsync: scoreGoal } = useCreateGoal();
-  console.log(player, `${position}-${side}`);
+  const label = position === "goal_keeper" ? "Goal Keeper" : "Striker";
 
   const score = async (type: GoalsType) => {
     if (type === "goal") {
@@ -77,6 +77,7 @@ export const Player = ({
         <Box mr={2}>
           <Button
             variant="contained"
+            color={side === "red" ? "error" : "primary"}
             disabled={!match}
             onClick={() => score("goal")}
           >
@@ -85,11 +86,12 @@ export const Player = ({
         </Box>
         <Box mr={2}>
           <Button
-            variant="contained"
+            variant="outlined"
+            color={side === "red" ? "error" : "primary"}
             disabled={!match}
             onClick={() => score("own-goal")}
           >
-            Auto Gol
+            Own Gol
           </Button>
         </Box>
         <Box mr={2} minWidth={"240px"}>
@@ -123,9 +125,9 @@ export const Player = ({
             />
           ) : (
             <FormControl fullWidth>
-              <InputLabel id={`${position}-${side}`}>{position}</InputLabel>
+              <InputLabel id={`${position}-${side}`}>{label}</InputLabel>
               <Select
-                label={position}
+                label={label}
                 labelId={`${position}-${side}`}
                 defaultValue={player}
                 readOnly={readonly}

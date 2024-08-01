@@ -13,9 +13,14 @@ export const Score = ({ redScore, blueScore }: IScore) => {
         margin-right: 12px !important;
       `}
       variant="h4"
-      color={"primary"}
     >
-      {redScore} Red - Blue {blueScore}
+      <Typography color={"red"} variant="h4" component="span">
+        {redScore} Red
+      </Typography>{" "}
+      -{" "}
+      <Typography color={"primary"} variant="h4" component="span">
+        Blue {blueScore}
+      </Typography>
     </Typography>
   );
 };

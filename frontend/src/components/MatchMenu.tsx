@@ -37,6 +37,10 @@ export const MatchMenu = ({ matchId }: IMatchMenu) => {
     navigate(`/create-match?previousMatch=${matchId}`);
   };
 
+  const onCancel = async () => {
+    navigate(`/create-match`);
+  }
+
   return (
     <Grid display="flex" justifyContent="center" alignItems="center" mb={5}>
       <Button
@@ -44,6 +48,7 @@ export const MatchMenu = ({ matchId }: IMatchMenu) => {
           margin-right: 12px !important;
         `}
         variant="outlined"
+        onClick={onCancel}
       >
         Cancel
       </Button>

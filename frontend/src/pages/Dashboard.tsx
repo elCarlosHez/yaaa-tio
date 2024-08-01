@@ -25,11 +25,11 @@ export const Dashboard = () => {
               <Button variant="contained">Gol</Button>
             </Box>
             <Box mr={2}>
-              <Button variant="contained">Auto Gol</Button>
+              <Button variant="contained">Own Gol</Button>
             </Box>
             <Box mr={2} minWidth={"240px"}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Portero</InputLabel>
+                <InputLabel id="demo-simple-select-label">Goal Keeper</InputLabel>
                 <Select variant="filled" label="Eligue un jugador">
                   <MenuItem>Juan</MenuItem>
                 </Select>
@@ -44,7 +44,7 @@ export const Dashboard = () => {
               </Select>
             </FormControl>
             <Button>Gol</Button>
-            <Button>Auto Gol</Button>
+            <Button>Own Gol</Button>
           </Grid>
           <Grid xs={6}></Grid>
           <Grid xs={6}></Grid>

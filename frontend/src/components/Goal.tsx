@@ -19,13 +19,18 @@ interface IGoal {
 
 export const Goal = ({ goal }: IGoal) => {
   const { mutate: deleteGoal } = useDeleteGoal();
-  
+
   const onPressDelete = () => {
     deleteGoal(goal);
-  }
+  };
 
   return (
-    <Card sx={{ display: "flex" }}>
+    <Card
+      sx={{
+        display: "flex",
+        border: goal.team === "red" ? "1px solid red" : "1px solid #1976d2",
+      }}
+    >
       <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
