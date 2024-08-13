@@ -1,12 +1,6 @@
 1. `cd backend`
 1. `./pocketbase serve`
 
-### Terraform first time setup
-
-1. Download terraform
-1. Download and configure aws cli
-1. `cd tf`
-1. `terraform init`
 
 ### Notes
 
