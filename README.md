@@ -21,8 +21,8 @@ erDiagram
   }
   matches {
     uuid id PK
-    time start_time 
-    time end_time "NULL"
+    time created "start_time"
+    time completed_at "NULL"
     int goals_blue "NULL"
     int goals_red "NULL"
     int event_count
@@ -30,7 +30,7 @@ erDiagram
   teams {
     uuid id PK
     uuid match_id FK 
-    date switch_time 
+    date created "switch_time"
     uuid striker_id FK 
     uuid keeper_id FK 
     string color "blue|red"
@@ -41,7 +41,7 @@ erDiagram
     uuid match_id FK
     uuid team_id FK 
     uuid kickoff_id FK 
-    time goal_time 
+    time created "goal_time" 
     uuid scorer_id FK
     string trick
     bool own_goal
@@ -53,7 +53,7 @@ erDiagram
     uuid team_id FK
     uuid starter_id FK
     bool jiribilla 
-    time start_time 
+    time created "start_time" 
     int event_number
   }
   teams ||--|{ goals : has
