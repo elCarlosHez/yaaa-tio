@@ -1,17 +1,20 @@
 import {
   Box,
   Button,
-  FormControl,
   InputLabel,
   CircularProgress,
-  Select,
   MenuItem,
 } from "@mui/material";
 import { GoalsType, Match, MatchesBody, Positions } from "../types";
 import { useState } from "react";
 import { useGetUsers } from "../queries";
-import { Control, Controller, UseFormRegister } from "react-hook-form";
+import { Control, UseFormRegister } from "react-hook-form";
 import { useCreateGoal } from "../mutations/CreateGoal";
+import {
+  SelectGoalkeeperStyled,
+  SelectPosition,
+} from "./SelectTeam/SelectTeam.styles";
+import { PlayerMenuItem } from "./PlayerMenuItem";
 
 interface IPlayer {
   position: Positions;
@@ -29,9 +32,8 @@ export const Player = ({
   match,
   player = "",
   readonly,
-  control,
 }: IPlayer) => {
-  const [selectedPlayer, setSelectedPlayer] = useState<string>(player);
+  const [selectedPlayer] = useState<string>(player);
   const { data: users, isLoading } = useGetUsers();
   const { mutateAsync: scoreGoal } = useCreateGoal();
   const label = position === "goal_keeper" ? "Goal Keeper" : "Striker";
@@ -81,7 +83,7 @@ export const Player = ({
             disabled={!match}
             onClick={() => score("goal")}
           >
-            Gol
+            Goal
           </Button>
         </Box>
         <Box mr={2}>
@@ -91,55 +93,27 @@ export const Player = ({
             disabled={!match}
             onClick={() => score("own-goal")}
           >
-            Own Gol
+            Own
           </Button>
         </Box>
-        <Box mr={2} minWidth={"240px"}>
-          {control ? (
-            <Controller
-              defaultValue={player || ""}
-              control={control}
-              name={`${side}_${position}`}
-              render={({ field: { onChange, value, ref } }) => (
-                <FormControl fullWidth>
-                  <InputLabel id={`${position}-${side}`}>{position}</InputLabel>
-                  <Select
-                    label={position}
-                    labelId={`${position}-${side}`}
-                    value={value}
-                    onChange={(event) => {
-                      setSelectedPlayer(event.target.value as string);
-                      onChange(event);
-                    }}
-                    inputRef={ref}
-                    readOnly={readonly}
-                  >
-                    {users?.map((user) => (
-                      <MenuItem key={user.id} value={user.id}>
-                        {user.username}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              )}
-            />
-          ) : (
-            <FormControl fullWidth>
-              <InputLabel id={`${position}-${side}`}>{label}</InputLabel>
-              <Select
-                label={label}
-                labelId={`${position}-${side}`}
-                defaultValue={player}
-                readOnly={readonly}
-              >
-                {users?.map((user) => (
-                  <MenuItem key={user.id} value={user.id}>
-                    {user.username}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          )}
+        <Box mr={2} width={"200px"}>
+          <SelectGoalkeeperStyled fullWidth team={side}>
+            <InputLabel id={`${position}-${side}`}>{label}</InputLabel>
+            <SelectPosition
+              label={label}
+              team={side}
+              labelId={`${position}-${side}`}
+              defaultValue={player}
+              readOnly={readonly}
+              inputProps={{ IconComponent: () => null }}
+            >
+              {users?.map((user) => (
+                <MenuItem key={user.id} value={user.id}>
+                  <PlayerMenuItem player={user} />
+                </MenuItem>
+              ))}
+            </SelectPosition>
+          </SelectGoalkeeperStyled>
         </Box>
       </Box>
     );

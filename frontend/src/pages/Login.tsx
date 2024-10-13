@@ -27,6 +27,13 @@ export const Login = () => {
         >
           Fútbol iconos creados por kosonicon - Flaticon
         </Link>
+        <Link
+          mt={5}
+          href="https://www.flaticon.com/free-icons/swap"
+          title="swap icons"
+        >
+          Swap icons created by Cap Cool - Flaticon
+        </Link>
       </LoginContainer>
     </LoginLayout>
   );

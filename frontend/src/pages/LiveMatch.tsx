@@ -36,7 +36,9 @@ export const LiveMatch = () => {
           <Player
             position="goal_keeper"
             side="red"
-            player={users?.find((user) => match?.red_goal_keeper === user.id)?.id}
+            player={
+              users?.find((user) => match?.red_goal_keeper === user.id)?.id
+            }
             match={match}
             readonly
           />

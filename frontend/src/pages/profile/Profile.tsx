@@ -36,6 +36,7 @@ export const Profile = () => {
     console.log(data);
     await updateUser({
       ...data,
+      username: data.username?.trim(),
       userId: user!.id,
     });
   };

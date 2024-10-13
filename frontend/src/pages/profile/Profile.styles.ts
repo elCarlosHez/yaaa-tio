@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { Badge, Box } from "@mui/material";
-import { mq, BREAKPOINTS } from "../../theme";
 
 export const ProfileLayout = styled(Box)`
   width: 100vw;
