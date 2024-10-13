@@ -7,6 +7,6 @@ export const GET_USERS_KEY = "GET_USERS";
 export const useGetUsers = () =>
   useQuery(GET_USERS_KEY, async () => {
     return await pb.collection("users").getFullList<User>({
-      sort: '-username',
+      sort: 'username',
     });
   });
