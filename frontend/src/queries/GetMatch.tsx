@@ -8,9 +8,9 @@ export const useGetMatch = (matchId: string | undefined) =>
   useQuery(
     [GET_MATCH_KEY, matchId],
     async () => {
-      return await pb.collection("matches").getOne<Match>(matchId || "");
-    },
-    {
-      enabled: !!matchId,
+      if(matchId) {
+        return await pb.collection("matches").getOne<Match>(matchId || "");
+      }
+      return Promise.resolve(undefined);
     }
   );

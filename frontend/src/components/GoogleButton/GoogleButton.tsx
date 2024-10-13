@@ -10,7 +10,7 @@ export const GoogleButton = () => {
       .collection("users")
       .authWithOAuth2({ provider: "google" });
       if ( authData) {
-        navigate('/create-match');
+        navigate('/home');
       }
   };
 

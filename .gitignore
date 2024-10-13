@@ -1,3 +1,4 @@
-*/pocketbase.*
+*/pocketbase*
 /backend/pb_data
 /backend/pb_public
+.idea
