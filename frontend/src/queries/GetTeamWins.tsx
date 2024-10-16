@@ -21,6 +21,9 @@ export const useGetTeamWins = (
       let wins = 0;
       for (let i = 0; i < matches.length; i++) {
         const match = matches[i];
+        if (!match.winner){
+          continue;
+        }
         if (player_1 && player_2 && match.winner === 'red') {
           const redTeam = [match.red_striker, match.red_goal_keeper];
           if (
