@@ -12,6 +12,7 @@ import { Home } from "./pages/home/Home";
 import { AppBarLayout } from "./layouts/ApBarLayout";
 import { Profile } from "./pages/profile/Profile";
 import { customTheme } from "./theme";
+import { Stats } from "./pages/stats/Stats";
 
 export const App = () => {
   return (
@@ -25,6 +26,7 @@ export const App = () => {
               <Route element={<AppBarLayout />}>
                 <Route path="/home" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/stats" element={<Stats />} />
               </Route>
               <Route path="/create-match" element={<CreateMatch />} />
               <Route path="/live-match/:id" element={<LiveMatch />} />

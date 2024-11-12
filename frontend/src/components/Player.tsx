@@ -24,6 +24,7 @@ interface IPlayer {
   player?: string;
   readonly?: boolean;
   control?: Control<MatchesBody>;
+  buttons?: boolean;
 }
 
 export const Player = ({
@@ -32,6 +33,7 @@ export const Player = ({
   match,
   player = "",
   readonly,
+  buttons = true,
 }: IPlayer) => {
   const [selectedPlayer] = useState<string>(player);
   const { data: users, isLoading } = useGetUsers();
@@ -76,26 +78,31 @@ export const Player = ({
         flexDirection={side === "red" ? "row" : "row-reverse"}
         my={2}
       >
-        <Box mr={2}>
-          <Button
-            variant="contained"
-            color={side === "red" ? "error" : "primary"}
-            disabled={!match}
-            onClick={() => score("goal")}
-          >
-            Goal
-          </Button>
-        </Box>
-        <Box mr={2}>
-          <Button
-            variant="outlined"
-            color={side === "red" ? "error" : "primary"}
-            disabled={!match}
-            onClick={() => score("own-goal")}
-          >
-            Own
-          </Button>
-        </Box>
+        {buttons && (
+          <>
+            <Box mr={2}>
+              <Button
+                variant="contained"
+                color={side === "red" ? "error" : "primary"}
+                disabled={!match}
+                onClick={() => score("goal")}
+              >
+                Goal
+              </Button>
+            </Box>
+            <Box mr={2}>
+              <Button
+                variant="outlined"
+                color={side === "red" ? "error" : "primary"}
+                disabled={!match}
+                onClick={() => score("own-goal")}
+              >
+                Own
+              </Button>
+            </Box>
+          </>
+        )}
+
         <Box mr={2} width={"200px"}>
           <SelectGoalkeeperStyled fullWidth team={side}>
             <InputLabel id={`${position}-${side}`}>{label}</InputLabel>
