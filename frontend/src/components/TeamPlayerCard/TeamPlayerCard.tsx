@@ -25,8 +25,8 @@ export const TeamPlayerCard = ({ teamPlayerStat }: ITeamPlayerCard) => {
               teamPlayerStat.player.avatar!
             )}
             sx={{
-                width: 70,
-                height: 70,
+              width: 70,
+              height: 70,
             }}
           />
         </ListItemAvatar>
@@ -44,6 +44,20 @@ export const TeamPlayerCard = ({ teamPlayerStat }: ITeamPlayerCard) => {
                 sx={{ color: "text.primary", display: "block" }}
               >
                 Win rate: {teamPlayerStat.winRate?.toFixed(0)}%
+              </Typography>
+              <Typography
+                component="span"
+                variant="body2"
+                sx={{ color: "text.primary", display: "block" }}
+              >
+                Wins: {teamPlayerStat.wins}
+              </Typography>
+              <Typography
+                component="span"
+                variant="body2"
+                sx={{ color: "text.primary", display: "block" }}
+              >
+                Losses: {teamPlayerStat.matches.length - teamPlayerStat.wins}
               </Typography>
               <Typography
                 component="span"
