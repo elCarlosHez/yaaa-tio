@@ -29,7 +29,7 @@ export const Profile = () => {
       objectUrl = URL.createObjectURL(userImageFile[0]);
       setSelectedFile(objectUrl);
     }
-    return () => URL.revokeObjectURL("" || objectUrl);
+    return () => URL.revokeObjectURL(objectUrl || "");
   }, [userImageFile]);
 
   const onSubmit = async (data: ProfileForm) => {

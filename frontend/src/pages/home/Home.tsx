@@ -14,7 +14,7 @@ export const Home = () => {
       >
         New Game
       </Button>
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" onClick={() => navigate("/stats")}>
         Scoreboard
       </Button>
     </HomeLayout>
