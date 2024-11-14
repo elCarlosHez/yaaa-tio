@@ -127,7 +127,7 @@ export const Stats = () => {
                     width="150px"
                     height="150px"
                     data={{
-                      labels: ["Wins", "Losses"],
+                      labels: ["Losses", "Wins", ],
                       datasets: [
                         {
                           data: [
@@ -183,7 +183,7 @@ export const Stats = () => {
                     width="150px"
                     height="150px"
                     data={{
-                      labels: ["Goals", "Own Goals"],
+                      labels: ["Own Goals", "Goals"],
                       datasets: [
                         {
                           data: [
