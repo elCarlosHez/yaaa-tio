@@ -131,11 +131,11 @@ export const Stats = () => {
                       datasets: [
                         {
                           data: [
-                            userPositionStats?.wins,
                             userPositionStats
-                              ? userPositionStats?.matches.length -
-                                userPositionStats?.wins
-                              : 0,
+                            ? userPositionStats?.matches.length -
+                              userPositionStats?.wins
+                            : 0,
+                            userPositionStats?.wins,
                           ],
                           backgroundColor: ["#d32f2f", "#1976d2"],
                           hoverBackgroundColor: ["#d32f2f", "#1976d2"],
@@ -187,8 +187,8 @@ export const Stats = () => {
                       datasets: [
                         {
                           data: [
-                            userPositionStats?.goals,
                             userPositionStats?.ownGoals,
+                            userPositionStats?.goals,
                           ],
                           backgroundColor: ["#d32f2f", "#1976d2"],
                           hoverBackgroundColor: ["#d32f2f", "#1976d2"],
