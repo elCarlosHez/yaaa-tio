@@ -91,8 +91,32 @@ export const Stats = () => {
                     <Typography color="error">
                       Striker: {userPositionStats?.striker}
                     </Typography>
+                    <Typography mb={2}>
+                      Percentage:{" "} 
+                      {userPositionStats?.matches?.length
+                        ? (
+                            ((userPositionStats?.matches?.length -
+                              userPositionStats?.goalkeeper) /
+                              userPositionStats?.matches?.length) *
+                            100
+                          ).toFixed()
+                        : 0}
+                      %
+                    </Typography>
                     <Typography color="primary">
                       Goalkeeper: {userPositionStats?.goalkeeper}
+                    </Typography>
+                    <Typography>
+                      Percentage:{" "} 
+                      {userPositionStats?.matches?.length
+                        ? (
+                            ((userPositionStats?.matches?.length -
+                              userPositionStats?.striker) /
+                              userPositionStats?.matches?.length) *
+                            100
+                          ).toFixed()
+                        : 0}
+                      %
                     </Typography>
                   </CardContent>
                 </Box>
@@ -145,7 +169,7 @@ export const Stats = () => {
                         : 0}
                     </Typography>
                     <Typography>
-                      Win Rate: {userPositionStats?.winRate}%
+                      Win Rate: {userPositionStats?.winRate?.toFixed(0)}%
                     </Typography>
                     <Typography>
                       Total of matches: {userPositionStats?.totalMatches}
