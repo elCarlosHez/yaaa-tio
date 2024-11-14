@@ -2,21 +2,14 @@ import styled from "@emotion/styled";
 import {
   Accordion,
   AccordionSummary,
-  Box,
-  FormControl,
-  IconButton,
-  Select,
-  Typography,
 } from "@mui/material";
-import { mq, BREAKPOINTS } from "../../theme";
-import { StyledComponentProps, Theme } from "@mui/material/styles";
-import { Match } from "../../types";
+import isPropValid from '@emotion/is-prop-valid'
 
 interface IAccordionMatch {
   isWin: boolean;
 }
 
-export const AccordionMatch = styled(Accordion) <IAccordionMatch>`
+export const AccordionMatch = styled(Accordion, { shouldForwardProp: isPropValid })<IAccordionMatch>`
   border: 1px solid ${(props) =>
     props.isWin
       ? props.theme?.palette?.primary.light
@@ -28,7 +21,7 @@ interface IAccordionMatchSummary {
   isWin: boolean;
 }
 
-export const AccordionMatchSummary = styled(AccordionSummary) <IAccordionMatchSummary>`
+export const AccordionMatchSummary = styled(AccordionSummary, { shouldForwardProp: isPropValid }) <IAccordionMatchSummary>`
   background: ${(props) =>
     props.isWin
       ? props.theme?.palette?.primary.light

@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
-import { mq, BREAKPOINTS } from "../../theme";
 
 export const StatsLayout = styled(Box)`
   width: 100vw;

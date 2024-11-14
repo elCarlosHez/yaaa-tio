@@ -1,12 +1,9 @@
 import {
-  Accordion,
   AccordionDetails,
-  AccordionSummary,
   CircularProgress,
-  Grid,
   Typography,
 } from "@mui/material";
-import { Fragment, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ExpandMore } from "@mui/icons-material";
 import { Match } from "../../types";
 import { pb } from "../../lib";
@@ -75,7 +72,7 @@ export const MatchAccordion = ({ match }: IMatchAccordion) => {
         </Typography>
       </AccordionMatchSummary>
       <AccordionDetails>
-        <Grid2 container sx={{ overflow: 'hidden', maxWidth: '600px' }}>
+        <Grid2 container sx={{ overflow: 'hidden' }}>
           {isLoading ? (
             <Grid2 xs={6} xsOffset={4}>
               <CircularProgress />
