@@ -1,7 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Player } from "../components/Player";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams, useSearchParams } from "react-router-dom";
 import { useGetMatch } from "../queries/GetMatch";
 import { useGetUsers } from "../queries";
 import { Events } from "../components/Events";
@@ -10,20 +10,27 @@ import { MatchMenu } from "../components/MatchMenu";
 export const LiveMatch = () => {
   const { id } = useParams();
   const { data: match, isLoading: isMatchLoading } = useGetMatch(id);
+  let [searchParams, _] = useSearchParams();
+  const { data: previousMatch, isLoading: isPreviousMatchLoading } =
+    useGetMatch(searchParams.get("previousMatch")!);
   const { data: users, isLoading: isUsersLoading } = useGetUsers();
 
   if (!id) {
     return <Navigate to="/create-match" />;
   }
 
-  if (isMatchLoading || isUsersLoading) {
+  if (isMatchLoading || isUsersLoading || isPreviousMatchLoading) {
     return <CircularProgress />;
   }
 
   return (
     <Grid container>
       <Grid xs={12}>
-        <MatchMenu matchId={id} />
+        <MatchMenu
+          matchId={id}
+          streak={previousMatch?.streak}
+          previousWinner={previousMatch?.winner}
+        />
       </Grid>
       <Grid xs={12}>
         <Grid

@@ -27,6 +27,7 @@ export interface Match {
   blue_striker: string;
   complted_at: string;
   winner: "red" | "blue";
+  streak: number;
 }
 
 export interface Goal {

@@ -14,7 +14,6 @@ import {
 } from "./CreateMatch.styles";
 import { SelectTeam } from "../../components/SelectTeam/SelectTeam";
 import { PreExistedTeams } from "../../components/PreExistedTeam/PreExistedTeams";
-import { useGetTeamWins } from "../../queries/GetTeamWins";
 
 export const CreateMatch = () => {
   let [searchParams, _] = useSearchParams();
@@ -36,6 +35,7 @@ export const CreateMatch = () => {
           striker: previousMatch.red_striker,
           goal_keeper: previousMatch.red_goal_keeper,
           team: previousMatch.winner,
+          streak: previousMatch.streak,
         };
       }
       if (previousMatch.winner === "blue") {
@@ -43,17 +43,17 @@ export const CreateMatch = () => {
           striker: previousMatch.blue_striker,
           goal_keeper: previousMatch.blue_goal_keeper,
           team: previousMatch.winner,
+          streak: previousMatch.streak,
         };
       }
     }
   }, [previousMatch]);
-  const { data: winnerWins, isLoading: isWinnerWinsLoading } = useGetTeamWins(
-    winnerTeam?.striker,
-    winnerTeam?.goal_keeper
-  );
 
   const onSubmit: SubmitHandler<MatchesBody> = async (data) => {
     const match = await createMatch(data);
+    if (previousMatch) {
+      return navigate(`/live-match/${match.id}?previousMatch=${previousMatch?.id}`);
+    }
     navigate(`/live-match/${match.id}`);
   };
 
@@ -87,7 +87,7 @@ export const CreateMatch = () => {
     }
   };
 
-  if (isPreviousMatchLoading || isWinnerWinsLoading) {
+  if (isPreviousMatchLoading) {
     return <CircularProgress />;
   }
 
@@ -98,7 +98,7 @@ export const CreateMatch = () => {
           <SelectTeam
             team="red"
             control={control}
-            wins={winnerTeam?.team === "red" ? winnerWins! : 0}
+            wins={winnerTeam?.team === "red" ? winnerTeam?.streak : 0}
             getValues={getValues}
             setValue={setValue}
           />
@@ -110,7 +110,7 @@ export const CreateMatch = () => {
           <SelectTeam
             team="blue"
             control={control}
-            wins={winnerTeam?.team === "blue" ? winnerWins! : 0}
+            wins={winnerTeam?.team === "blue" ? winnerTeam?.streak : 0}
             getValues={getValues}
             setValue={setValue}
           />

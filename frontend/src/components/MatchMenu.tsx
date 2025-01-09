@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 
 interface IMatchMenu {
   matchId: string;
+  previousWinner?: "red" | "blue";
+  streak?: number;
 }
 
 const formatTime = (totalSeconds: number) => {
@@ -18,7 +20,7 @@ const formatTime = (totalSeconds: number) => {
     .padStart(2, "0")}`;
 };
 
-export const MatchMenu = ({ matchId }: IMatchMenu) => {
+export const MatchMenu = ({ matchId, previousWinner, streak }: IMatchMenu) => {
   const { data: goals = [], isLoading } = useGetMatchGoals(matchId);
   const { mutateAsync: endMatch } = useEndMatch();
   const [seconds, setSeconds] = useState(0);
@@ -48,9 +50,11 @@ export const MatchMenu = ({ matchId }: IMatchMenu) => {
   ).length;
 
   const onEndMatch = async () => {
+    const winner = redScore > blueScore ? "red" : "blue";
     await endMatch({
       id: matchId,
-      winner: redScore > blueScore ? "red" : "blue",
+      streak: winner === previousWinner && streak ? streak + 1 : 1,
+      winner,
     });
     navigate(`/create-match?previousMatch=${matchId}`);
   };
