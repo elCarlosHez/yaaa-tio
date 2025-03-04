@@ -14,44 +14,50 @@ export const useGetPreExistedTeams = (player_1?: string, player_2?: string) =>
       const matches = await pb.collection("matches").getFullList<Match>({
         filter: `created >= "${today}" && created <= "${endOfDay}"`,
       });
+      
       const teams = matches.reduce((prevTeams, match) => {
         let newTeams = [...prevTeams];
-        if (
-          match.red_striker !== player_1 &&
-          match.red_goal_keeper !== player_2 &&
-          !prevTeams.some(
-            (team) =>
-              team.striker === match.red_striker &&
-              team.goalkeeper === match.red_goal_keeper
-          )
-        ) {
-          newTeams = [
-            ...newTeams,
-            {
-              striker: match.red_striker,
-              goalkeeper: match.red_goal_keeper,
-            },
-          ];
+        
+        // Helper function to check if a team combination exists
+        const isTeamExists = (striker: string, goalkeeper: string) => {
+          return prevTeams.some(team => 
+            (team.striker === striker && team.goalkeeper === goalkeeper) ||
+            (team.striker === goalkeeper && team.goalkeeper === striker)
+          );
+        };
+
+        // Helper function to check if a player is selected
+        const isPlayerSelected = (player: string) => {
+          return player === player_1 || player === player_2;
+        };
+
+        // Check red team
+        const redStriker = match.red_striker;
+        const redGoalkeeper = match.red_goal_keeper;
+        if (!isPlayerSelected(redStriker) && 
+            !isPlayerSelected(redGoalkeeper) && 
+            !isTeamExists(redStriker, redGoalkeeper)) {
+          newTeams.push({
+            striker: redStriker,
+            goalkeeper: redGoalkeeper,
+          });
         }
-        if (
-          match.blue_striker !== player_1 &&
-          match.blue_goal_keeper !== player_2 &&
-          !prevTeams.some(
-            (team) =>
-              team.striker === match.blue_striker &&
-              team.goalkeeper === match.blue_goal_keeper
-          )
-        ) {
-          newTeams = [
-            ...newTeams,
-            {
-              striker: match.blue_striker,
-              goalkeeper: match.blue_goal_keeper,
-            },
-          ];
+
+        // Check blue team
+        const blueStriker = match.blue_striker;
+        const blueGoalkeeper = match.blue_goal_keeper;
+        if (!isPlayerSelected(blueStriker) && 
+            !isPlayerSelected(blueGoalkeeper) && 
+            !isTeamExists(blueStriker, blueGoalkeeper)) {
+          newTeams.push({
+            striker: blueStriker,
+            goalkeeper: blueGoalkeeper,
+          });
         }
+
         return newTeams;
       }, [] as { striker: string; goalkeeper: string }[]);
+      
       return teams;
     },
   });

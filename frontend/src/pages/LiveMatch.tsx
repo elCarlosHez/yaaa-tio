@@ -29,7 +29,7 @@ export const LiveMatch = () => {
         <MatchMenu
           matchId={id}
           streak={previousMatch?.streak}
-          previousWinner={previousMatch?.winner}
+          previousMatch={previousMatch}
         />
       </Grid>
       <Grid xs={12}>

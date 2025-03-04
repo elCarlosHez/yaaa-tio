@@ -1,14 +1,15 @@
 import { Grid, Button, CircularProgress, Typography } from "@mui/material";
 import { Score } from "./Score";
 import { css } from "@emotion/css";
-import { useGetMatchGoals } from "../queries";
+import { useGetMatch, useGetMatchGoals } from "../queries";
 import { useEndMatch } from "../mutations";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Match } from "../types";
 
 interface IMatchMenu {
   matchId: string;
-  previousWinner?: "red" | "blue";
+  previousMatch?: Match;
   streak?: number;
 }
 
@@ -20,7 +21,8 @@ const formatTime = (totalSeconds: number) => {
     .padStart(2, "0")}`;
 };
 
-export const MatchMenu = ({ matchId, previousWinner, streak }: IMatchMenu) => {
+export const MatchMenu = ({ matchId, previousMatch, streak }: IMatchMenu) => {
+  const { data: match, isLoading: isMatchLoading } = useGetMatch(matchId);
   const { data: goals = [], isLoading } = useGetMatchGoals(matchId);
   const { mutateAsync: endMatch } = useEndMatch();
   const [seconds, setSeconds] = useState(0);
@@ -33,7 +35,7 @@ export const MatchMenu = ({ matchId, previousWinner, streak }: IMatchMenu) => {
     return () => clearInterval(interval!);
   }, [seconds]);
 
-  if (isLoading) {
+  if (isLoading || isMatchLoading) {
     return <CircularProgress />;
   }
 
@@ -51,9 +53,24 @@ export const MatchMenu = ({ matchId, previousWinner, streak }: IMatchMenu) => {
 
   const onEndMatch = async () => {
     const winner = redScore > blueScore ? "red" : "blue";
+    
+    // Only increment streak if same team (same players in same positions) wins again
+    const shouldIncrementStreak = 
+      previousMatch?.winner === winner && 
+      streak && (
+        (winner === 'red' && 
+          previousMatch.red_striker === match?.red_striker &&
+          previousMatch.red_goal_keeper === match?.red_goal_keeper
+        ) ||
+        (winner === 'blue' && 
+          previousMatch.blue_striker === match?.blue_striker &&
+          previousMatch.blue_goal_keeper === match?.blue_goal_keeper
+        )
+      );
+
     await endMatch({
       id: matchId,
-      streak: winner === previousWinner && streak ? streak + 1 : 1,
+      streak: shouldIncrementStreak ? streak + 1 : 1,
       winner,
     });
     navigate(`/create-match?previousMatch=${matchId}`);
