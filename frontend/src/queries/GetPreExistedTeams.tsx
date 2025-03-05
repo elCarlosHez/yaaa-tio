@@ -12,7 +12,7 @@ export const useGetPreExistedTeams = (player_1?: string, player_2?: string) =>
     queryFn: async () => {
       const [today, endOfDay] = getTodayUTC();
       const matches = await pb.collection("matches").getFullList<Match>({
-        filter: `created >= "${today}" && created <= "${endOfDay}"`,
+        filter: `created >= "${today}" && created <= "${endOfDay}" && winner != null`,
       });
       
       const teams = matches.reduce((prevTeams, match) => {

@@ -1,16 +1,15 @@
 import { Grid, Button, CircularProgress, Typography } from "@mui/material";
 import { Score } from "./Score";
 import { css } from "@emotion/css";
-import { useGetMatch, useGetMatchGoals } from "../queries";
+import { useGetMatchGoals } from "../queries";
 import { useEndMatch } from "../mutations";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Match } from "../types";
 
 interface IMatchMenu {
-  matchId: string;
   previousMatch?: Match;
-  streak?: number;
+  match?: Match;
 }
 
 const formatTime = (totalSeconds: number) => {
@@ -21,9 +20,8 @@ const formatTime = (totalSeconds: number) => {
     .padStart(2, "0")}`;
 };
 
-export const MatchMenu = ({ matchId, previousMatch, streak }: IMatchMenu) => {
-  const { data: match, isLoading: isMatchLoading } = useGetMatch(matchId);
-  const { data: goals = [], isLoading } = useGetMatchGoals(matchId);
+export const MatchMenu = ({ previousMatch, match }: IMatchMenu) => {
+  const { data: goals = [], isLoading } = useGetMatchGoals(match?.id);
   const { mutateAsync: endMatch } = useEndMatch();
   const [seconds, setSeconds] = useState(0);
   const navigate = useNavigate();
@@ -35,7 +33,7 @@ export const MatchMenu = ({ matchId, previousMatch, streak }: IMatchMenu) => {
     return () => clearInterval(interval!);
   }, [seconds]);
 
-  if (isLoading || isMatchLoading) {
+  if (isLoading) {
     return <CircularProgress />;
   }
 
@@ -53,27 +51,27 @@ export const MatchMenu = ({ matchId, previousMatch, streak }: IMatchMenu) => {
 
   const onEndMatch = async () => {
     const winner = redScore > blueScore ? "red" : "blue";
-    
-    // Only increment streak if same team (same players in same positions) wins again
-    const shouldIncrementStreak = 
-      previousMatch?.winner === winner && 
-      streak && (
-        (winner === 'red' && 
-          previousMatch.red_striker === match?.red_striker &&
-          previousMatch.red_goal_keeper === match?.red_goal_keeper
-        ) ||
-        (winner === 'blue' && 
-          previousMatch.blue_striker === match?.blue_striker &&
-          previousMatch.blue_goal_keeper === match?.blue_goal_keeper
-        )
-      );
+    let newStreak = 1;
+
+    if (previousMatch?.winner === winner && previousMatch?.streak) {
+      // Check if it's the same team (regardless of positions)
+      const sameTeam = winner === "red" 
+        ? (previousMatch.red_striker === match?.red_striker && previousMatch.red_goal_keeper === match?.red_goal_keeper) ||
+          (previousMatch.red_striker === match?.red_goal_keeper && previousMatch.red_goal_keeper === match?.red_striker)
+        : (previousMatch.blue_striker === match?.blue_striker && previousMatch.blue_goal_keeper === match?.blue_goal_keeper) ||
+          (previousMatch.blue_striker === match?.blue_goal_keeper && previousMatch.blue_goal_keeper === match?.blue_striker);
+
+      if (sameTeam) {
+        newStreak = previousMatch?.streak + 1;
+      }
+    }
 
     await endMatch({
-      id: matchId,
-      streak: shouldIncrementStreak ? streak + 1 : 1,
+      id: match?.id,
+      streak: newStreak,
       winner,
     });
-    navigate(`/create-match?previousMatch=${matchId}`);
+    navigate(`/create-match?previousMatch=${match?.id}`);
   };
 
   const onCancel = async () => {

@@ -27,9 +27,8 @@ export const LiveMatch = () => {
     <Grid container>
       <Grid xs={12}>
         <MatchMenu
-          matchId={id}
-          streak={previousMatch?.streak}
           previousMatch={previousMatch}
+          match={match}
         />
       </Grid>
       <Grid xs={12}>
